@@ -39,15 +39,11 @@ public class TicketService {
         //Incase the train doesn't pass through the requested stations
         //throw new Exception("Invalid stations");
 
-
-
         Train train = trainRepository.findById(bookTicketEntryDto.getTrainId()).get();
 
         if(train.getNoOfSeats() - train.getBookedTickets().size() < bookTicketEntryDto.getNoOfSeats()){
             throw new Exception("Less tickets are available");
         }
-
-
 
         List<Integer> passengerIds = bookTicketEntryDto.getPassengerIds();
 
@@ -89,9 +85,22 @@ public class TicketService {
         ticket.setTotalFare(300*(endIndex-startIndex));
         ticket.setFromStation(bookTicketEntryDto.getFromStation());
         ticket.setToStation(bookTicketEntryDto.getToStation());
+        ticket.setTrain(train);
 
+        Passenger passenger = passengerRepository.findById(bookTicketEntryDto.getBookingPersonId()).get();
 
+        passenger.getBookedTickets().add(ticket);
+
+        //Setting the parent reference
+        ticket.setTrain(train);
+
+        ticket = ticketRepository.save(ticket);
+
+        //Setting in the parent
+        train.getBookedTickets().add(ticket);
+
+        train = trainRepository.save(train);
+
+        return ticket.getTicketId();
     }
-
-
 }
