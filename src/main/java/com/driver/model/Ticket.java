@@ -26,19 +26,27 @@ public class Ticket {
     @JoinColumn
     private Train train;
 
-    SeatType seatType;
-
     private Station fromStation;
+
+    private int totalFare;
 
     private Station toStation;
 
-    public Ticket(int ticketId, List<Passenger> passengersList, Train train, SeatType seatType, Station fromStation, Station toStation) {
+    public Ticket(int ticketId, List<Passenger> passengersList, Train train, Station fromStation, Station toStation,int totalFare) {
         this.ticketId = ticketId;
         this.passengersList = passengersList;
         this.train = train;
-        this.seatType = seatType;
         this.fromStation = fromStation;
         this.toStation = toStation;
+        this.totalFare = totalFare;
+    }
+
+    public int getTotalFare() {
+        return totalFare;
+    }
+
+    public void setTotalFare(int totalFare) {
+        this.totalFare = totalFare;
     }
 
     public Station getFromStation() {
@@ -84,11 +92,4 @@ public class Ticket {
         this.train = train;
     }
 
-    public SeatType getSeatType() {
-        return seatType;
-    }
-
-    public void setSeatType(SeatType seatType) {
-        this.seatType = seatType;
-    }
 }

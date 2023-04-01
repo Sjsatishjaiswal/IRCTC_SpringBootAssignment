@@ -24,5 +24,4 @@ public class Seat {
 
     private boolean isBooked;
 
-    SeatType seatType;
 }
