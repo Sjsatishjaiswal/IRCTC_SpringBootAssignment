@@ -98,9 +98,7 @@ public class TicketService {
 
         //Setting in the parent
         train.getBookedTickets().add(ticket);
-
         train = trainRepository.save(train);
-
         return ticket.getTicketId();
     }
 }
