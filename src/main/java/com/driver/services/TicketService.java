@@ -41,7 +41,25 @@ public class TicketService {
 
         Train train = trainRepository.findById(bookTicketEntryDto.getTrainId()).get();
 
-        if(train.getNoOfSeats() - train.getBookedTickets().size() < bookTicketEntryDto.getNoOfSeats()){
+        String route = train.getRoute();
+
+        int boardingStationIndex = route.indexOf(bookTicketEntryDto.getFromStation().toString());
+        int destinationStationIndex = route.indexOf(bookTicketEntryDto.getToStation().toString());
+        int bookings = 0 ;
+
+        for(Ticket ticket :train.getBookedTickets()){
+
+            int startIndexOfTicket = route.indexOf(ticket.getFromStation().toString());
+            int endIndexOfTicket = route.indexOf(ticket.getToStation().toString());
+
+            if ((startIndexOfTicket < destinationStationIndex && startIndexOfTicket >= boardingStationIndex) ||
+                    (endIndexOfTicket > boardingStationIndex && endIndexOfTicket <= destinationStationIndex) ||
+                    (startIndexOfTicket <= boardingStationIndex && endIndexOfTicket >= destinationStationIndex)) {
+                bookings += ticket.getPassengersList().size();
+            }
+        }
+
+        if(train.getNoOfSeats() - bookings < bookTicketEntryDto.getNoOfSeats()){
             throw new Exception("Less tickets are available");
         }
 
@@ -57,13 +75,12 @@ public class TicketService {
             passengerList.add(passenger);
         }
         ticket.setPassengersList(passengerList);
-        String route = train.getRoute();
         String[] result = route.split(",");
         int startIndex = -1;
 
         for(int i=0;i<result.length;i++){
 
-            if(result[i].equals(bookTicketEntryDto.getFromStation())){
+            if(result[i].equals(bookTicketEntryDto.getFromStation().toString())){
                 startIndex = i;
                 break;
             }
@@ -72,7 +89,7 @@ public class TicketService {
         int endIndex = -1;
         for(int i=0;i<result.length;i++)
         {
-            if(result[i].equals(bookTicketEntryDto.getToStation())){
+            if(result[i].equals(bookTicketEntryDto.getToStation().toString())){
                 endIndex = i;
                 break;
             }

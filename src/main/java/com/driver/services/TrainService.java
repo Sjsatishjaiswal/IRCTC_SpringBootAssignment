@@ -45,7 +45,25 @@ public class TrainService {
         Train train = trainRepository.findById(seatAvailabilityEntryDto.getTrainId()).get();
 
         int totalSeats = train.getNoOfSeats();
-        int bookings = train.getBookedTickets().size();
+
+        int bookings = 0;
+
+        String route = train.getRoute();
+
+        int boardingStationIndex = route.indexOf(seatAvailabilityEntryDto.getFromStation().toString());
+        int destinationStationIndex = route.indexOf(seatAvailabilityEntryDto.getToStation().toString());
+
+        for(Ticket ticket :train.getBookedTickets()){
+
+            int startIndexOfTicket = route.indexOf(ticket.getFromStation().toString());
+            int endIndexOfTicket = route.indexOf(ticket.getToStation().toString());
+
+            if ((startIndexOfTicket < destinationStationIndex && startIndexOfTicket >= boardingStationIndex) ||
+                    (endIndexOfTicket > boardingStationIndex && endIndexOfTicket <= destinationStationIndex) ||
+                    (startIndexOfTicket <= boardingStationIndex && endIndexOfTicket >= destinationStationIndex)) {
+                bookings += ticket.getPassengersList().size();
+            }
+        }
         int remainingSeats = totalSeats - bookings;
         return remainingSeats;
     }
@@ -68,7 +86,9 @@ public class TrainService {
         int count = 0;
         for(Ticket ticket : bookedTickets){
 
-            count = count + ticket.getPassengersList().size();
+            if(ticket.getFromStation().toString().equals(boardingStation)){
+                count = count + ticket.getPassengersList().size();
+            }
         }
         return count;
     }
@@ -104,7 +124,6 @@ public class TrainService {
 
         int startMin = startTime.getHour()*60 + startTime.getMinute();
         int endMin = endTime.getHour()*60 + endTime.getMinute();
-
         List<Train> trains = trainRepository.findAll();
         List<Integer> trainIdList = new ArrayList<>();
         String currentStation = station.toString();
