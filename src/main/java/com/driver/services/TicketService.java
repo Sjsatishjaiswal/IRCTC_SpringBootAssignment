@@ -38,7 +38,7 @@ public class TicketService {
         //Fare System : Check problem statement
         //Incase the train doesn't pass through the requested stations
         //throw new Exception("Invalid stations");
-
+        //Save the
         Train train = trainRepository.findById(bookTicketEntryDto.getTrainId()).get();
 
         String route = train.getRoute();
@@ -105,14 +105,10 @@ public class TicketService {
         ticket.setTrain(train);
 
         Passenger passenger = passengerRepository.findById(bookTicketEntryDto.getBookingPersonId()).get();
-
         passenger.getBookedTickets().add(ticket);
-
         //Setting the parent reference
         ticket.setTrain(train);
-
         ticket = ticketRepository.save(ticket);
-
         //Setting in the parent
         train.getBookedTickets().add(ticket);
         train = trainRepository.save(train);

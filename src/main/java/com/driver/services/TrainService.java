@@ -61,6 +61,7 @@ public class TrainService {
             if ((startIndexOfTicket < destinationStationIndex && startIndexOfTicket >= boardingStationIndex) ||
                     (endIndexOfTicket > boardingStationIndex && endIndexOfTicket <= destinationStationIndex) ||
                     (startIndexOfTicket <= boardingStationIndex && endIndexOfTicket >= destinationStationIndex)) {
+                //Inner the station as well CHECK
                 bookings += ticket.getPassengersList().size();
             }
         }
@@ -144,13 +145,11 @@ public class TrainService {
             int totalHours = train.getDepartureTime().getHour() + extraHours;
             int totalMinutes = train.getDepartureTime().getMinute();
 
-
             int time = totalHours*60 + totalMinutes;
 
             if(time>=startMin && time <= endMin){
                 trainIdList.add(train.getTrainId());
             }
-
         }
         return trainIdList;
     }

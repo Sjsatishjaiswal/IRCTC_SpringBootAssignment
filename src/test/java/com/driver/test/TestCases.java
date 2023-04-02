@@ -192,7 +192,7 @@ public class TestCases {
         Train train = new Train();
         List<Passenger> passengerList = new ArrayList<Passenger>() {{
             add(new Passenger(1,"12",12,new ArrayList<>()));
-            add(new Passenger(1,"12",72,new ArrayList<>()));
+            add(new Passenger(1,"12",72,new ArrayList<>())); //Check this :
         }};
         Ticket ticket = new Ticket(ticketId,passengerList,train,from,to,totalFare);
         return  ticket;
