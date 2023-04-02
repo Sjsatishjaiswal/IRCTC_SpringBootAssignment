@@ -25,7 +25,6 @@ public class Passenger {
 
     //passengers and tickets are many to manny
 
-
     public Passenger() {
     }
 
