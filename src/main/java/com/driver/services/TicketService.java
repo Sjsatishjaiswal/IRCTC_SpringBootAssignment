@@ -34,7 +34,7 @@ public class TicketService {
         // Incase the there are insufficient tickets
         // throw new Exception("Less tickets are available");
         //otherwise book the ticket, calculate the price and other details
-        //Save the information in corresponding DBs and tables
+        //Save the information in corresponding DB Tables
         //Fare System : Check problem statement
         //Incase the train doesn't pass through the requested stations
         //throw new Exception("Invalid stations");
