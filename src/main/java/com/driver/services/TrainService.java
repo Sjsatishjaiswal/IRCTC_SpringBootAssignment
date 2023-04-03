@@ -66,7 +66,7 @@ public class TrainService {
     public List<Integer> trainsBetweenAGivenTime(Station station, LocalTime startTime, LocalTime endTime){
 
         //When you are at a particular station you need to find out the number of trains that will pass through a given station
-        //between a particular time frame.
+        //between a particular time frame both start time and end time included.
         //You can assume that the date change doesn't need to be done ie the travel will certainly happen with the same date (More details
         //in problem statement)
         //You can also assume the seconds and milli seconds value will be 0 in a LocalTime format.
